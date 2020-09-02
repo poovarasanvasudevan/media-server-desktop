@@ -18,7 +18,7 @@ void ChatDialog::initParticipants(QNetworkReply *reply) {
 
 // 🔍 is working
 ChatDialog::ChatDialog(QWidget *parent)
-        : QDialog(parent), ui(new Ui::ChatDialog),parseRequest(),proxyModel()  {
+        : QDialog(parent), ui(new Ui::ChatDialog), parseRequest(), proxyModel() {
 
     ui->setupUi(this);
     this->setFixedSize(QSize(280, 500));
@@ -35,16 +35,14 @@ ChatDialog::ChatDialog(QWidget *parent)
             QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
             QJsonArray jsonArray = jsonResponse.object()["results"].toArray();
 
-
             auto *model = new QStandardItemModel(ui->participantList);
-
-
 
             Q_FOREACH (const QJsonValue &value, jsonArray) {
                     QJsonObject obj = value.toObject();
                     auto item = new QStandardItem(
                             QIcon(":/assets/icons/user.png"),
-                            obj["first_name"].toString() + " " + obj["last_name"].toString());
+                            obj["first_name"].toString() + " " + obj["last_name"].toString()
+                    );
 
                     item->setToolTip(obj["first_name"].toString() + " " + obj["last_name"].toString());
                     model->appendRow(item);
@@ -80,7 +78,8 @@ ChatDialog::ChatDialog(QWidget *parent)
                 QJsonObject obj = value.toObject();
                 auto item = new QStandardItem(
                         QIcon(":/assets/icons/room.png"),
-                        obj["name"].toString());
+                        obj["name"].toString()
+                );
 
                 item->setToolTip(obj["name"].toString());
                 model->appendRow(item);

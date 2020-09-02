@@ -1,0 +1,14 @@
+# curl -X GET
+#  -H "X-Parse-Application-Id: ${APPLICATION_ID}"
+#  -H "X-Parse-REST-API-Key: ${REST_API_KEY}"
+#
+#  --data-urlencode 'where={"score":{"$exists":true}}'
+#  https://YOUR.PARSE-SERVER.HERE/parse/classes/GameScore
+GET http://localhost:1337/parse/classes/_User?where=%7B%7D
+X-Parse-Application-Id: myAppId
+X-Parse-REST-API-Key: restKey
+X-Parse-Master-Key: myMasterKey
+Content-Type: application/x-www-form-urlencoded
+
+###
+

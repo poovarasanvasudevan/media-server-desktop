@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/app.qml</file>
+        <file>assets/icons/team.png</file>
+        <file>assets/icons/router.png</file>
+        <file>assets/icons/settings.png</file>
+        <file>assets/icons/video.png</file>
+        <file>assets/icons/logo.png</file>
+        <file>assets/icons/speaker.png</file>
+        <file>assets/icons/about.png</file>
+        <file>assets/icons/monitor.png</file>
+        <file>assets/icons/comment.png</file>
+        <file>assets/icons/keyboard.png</file>
+        <file>assets/icons/dot.png</file>
+        <file>assets/icons/screen.png</file>
+        <file>assets/icons/emoji.png</file>
+        <file>assets/icons/user.png</file>
+        <file>assets/icons/room.png</file>
+    </qresource>
+</RCC>

@@ -18,10 +18,10 @@ void ChatDialog::initParticipants(QNetworkReply *reply) {
 
 // 🔍 is working
 ChatDialog::ChatDialog(QWidget *parent)
-        : QDialog(parent), ui(new Ui::ChatDialog), parseRequest(), proxyModel(),msgDialog() {
+        : QDialog(parent), ui(new Ui::ChatDialog), parseRequest(), proxyModel(), msgDialog() {
 
     ui->setupUi(this);
-    this->setFixedSize(QSize(280, 500));
+    this->setFixedSize(QSize(300, 520));
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
     proxyModel = new QSortFilterProxyModel(this);
@@ -35,6 +35,9 @@ ChatDialog::ChatDialog(QWidget *parent)
             QString strReply = (QString) parseReply->readAll();
             QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
             QJsonArray jsonArray = jsonResponse.object()["results"].toArray();
+
+            qDebug() << parseReply->error();
+            qDebug() << strReply;
 
             auto *model = new QStandardItemModel(ui->participantList);
 
@@ -67,7 +70,10 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     auto roomsReply = this->parseRequest->fetch("Rooms", *jsonDoc);
     roomsReply->connect(roomsReply, &QNetworkReply::finished, [=]() {
+
         QString strReply = (QString) roomsReply->readAll();
+        qDebug() << roomsReply->error();
+        qDebug() << strReply;
         QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
         QJsonArray jsonArray = jsonResponse.object()["results"].toArray();
 
@@ -104,7 +110,9 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     connect(ui->participantList,
             SIGNAL(doubleClicked(const QModelIndex)),
-            this, SLOT(participantClick(QModelIndex)));
+            this,
+            SLOT(participantClick(QModelIndex))
+    );
 }
 
 
@@ -119,7 +127,7 @@ void ChatDialog::participantClick(QModelIndex index) {
     msgDialog->setUser(clickedUserData);
     msgDialog->showUserChat();
 
-   // msgDialog.setUser(clickedUserData);
-  //  msgDialog.show();
+    // msgDialog.setUser(clickedUserData);
+    //  msgDialog.show();
     //qDebug() << clickedUserData;
 }

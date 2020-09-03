@@ -21,7 +21,7 @@ QNetworkRequest ParseRequest::baseRequest(QUrl url) {
 }
 
 QNetworkReply *ParseRequest::fetch(QString className, QJsonObject whereCondition) {
-    QUrl url("http://localhost:1337/parse/classes/" + className);
+    QUrl url("http://10.165.135.41:1337/parse/classes/" + className);
     QUrlQuery query;
     query.addQueryItem("where", QJsonDocument(whereCondition).toJson(QJsonDocument::Compact));
     url.setQuery(query);
@@ -39,7 +39,7 @@ ParseRequest::~ParseRequest() {
 }
 
 QNetworkReply *ParseRequest::save(QString className, QJsonObject obj) {
-    QUrl url("http://localhost:1337/parse/classes/" + className);
+    QUrl url("http://10.165.135.41:1337/parse/classes/" + className);
     auto request = this->baseRequest(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     return this->baseManager()->post(request, QJsonDocument(obj).toJson());

@@ -7,6 +7,7 @@
 
 #include <QDialog>
 #include "ui_messagedialog.h"
+#include "../../hpp/ParseRequest.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -17,6 +18,8 @@ class MessageDialog : public QDialog {
 Q_OBJECT
 
 public:
+    static QMap<QString, MessageDialog*> chatUsers;
+
     MessageDialog(QWidget *parent = nullptr);
 
     ~MessageDialog();
@@ -24,10 +27,14 @@ public:
     void setUser(QJsonObject jsonObject);
     QJsonObject getUser();
     void showUserChat();
+    void getMessages();
+
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MessageDialog *ui;
     QJsonObject userObj;
+    ParseRequest *parseRequest;
 
 
 };

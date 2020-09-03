@@ -21,6 +21,7 @@ class ChatDialog : public QDialog {
 Q_OBJECT
 
 public:
+
     ChatDialog(QWidget *parent = nullptr);
 
     ~ChatDialog();

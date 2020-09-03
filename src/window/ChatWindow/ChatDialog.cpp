@@ -10,7 +10,7 @@
 #include <QSortFilterProxyModel>
 #include <QtCore/QJsonObject>
 #include "ui_chatdialog.h"
-
+#include "../MessageWindow/MessageDialog.h"
 
 void ChatDialog::initParticipants(QNetworkReply *reply) {
 
@@ -18,7 +18,7 @@ void ChatDialog::initParticipants(QNetworkReply *reply) {
 
 // 🔍 is working
 ChatDialog::ChatDialog(QWidget *parent)
-        : QDialog(parent), ui(new Ui::ChatDialog), parseRequest(), proxyModel() {
+        : QDialog(parent), ui(new Ui::ChatDialog), parseRequest(), proxyModel(),msgDialog() {
 
     ui->setupUi(this);
     this->setFixedSize(QSize(280, 500));
@@ -27,8 +27,9 @@ ChatDialog::ChatDialog(QWidget *parent)
     proxyModel = new QSortFilterProxyModel(this);
 
     auto jsonDoc = new QJsonObject();
-    auto parseReply = this->parseRequest->fetch("_User", *jsonDoc);
 
+
+    auto parseReply = this->parseRequest->fetch("_User", *jsonDoc);
     parseReply->connect(parseReply, &QNetworkReply::finished, [=]() {
         if (parseReply->error() == QNetworkReply::NoError) {
             QString strReply = (QString) parseReply->readAll();
@@ -44,9 +45,9 @@ ChatDialog::ChatDialog(QWidget *parent)
                             obj["first_name"].toString() + " " + obj["last_name"].toString()
                     );
 
+                    item->setData(obj, Qt::UserRole + 10);
                     item->setToolTip(obj["first_name"].toString() + " " + obj["last_name"].toString());
                     model->appendRow(item);
-
                 }
             this->proxyModel->setSourceModel(model);
             proxyModel->setFilterKeyColumn(0);
@@ -100,9 +101,25 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     });
 
+
+    connect(ui->participantList,
+            SIGNAL(doubleClicked(const QModelIndex)),
+            this, SLOT(participantClick(QModelIndex)));
 }
 
 
 ChatDialog::~ChatDialog() {
     delete ui;
+}
+
+void ChatDialog::participantClick(QModelIndex index) {
+    auto clickedUserData = QJsonValue::fromVariant(index.data(Qt::UserRole + 10)).toObject();
+
+    msgDialog = new MessageDialog();
+    msgDialog->setUser(clickedUserData);
+    msgDialog->showUserChat();
+
+   // msgDialog.setUser(clickedUserData);
+  //  msgDialog.show();
+    //qDebug() << clickedUserData;
 }

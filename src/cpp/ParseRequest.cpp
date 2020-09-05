@@ -21,12 +21,12 @@ QNetworkRequest ParseRequest::baseRequest(QUrl url) {
 }
 
 QNetworkReply *ParseRequest::fetch(QString className, QJsonObject whereCondition) {
-    QUrl url("http://10.165.135.41:1337/parse/classes/" + className);
+    QUrl url(this->baseUrl() + "/classes/" + className);
     QUrlQuery query;
     query.addQueryItem("where", QJsonDocument(whereCondition).toJson(QJsonDocument::Compact));
     url.setQuery(query);
     auto request = this->baseRequest(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     return this->baseManager()->get(request);
 }
 
@@ -39,9 +39,29 @@ ParseRequest::~ParseRequest() {
 }
 
 QNetworkReply *ParseRequest::save(QString className, QJsonObject obj) {
-    QUrl url("http://10.165.135.41:1337/parse/classes/" + className);
+    QUrl url(this->baseUrl() + "/classes/" + className);
     auto request = this->baseRequest(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     return this->baseManager()->post(request, QJsonDocument(obj).toJson());
+}
+
+QNetworkReply *ParseRequest::signIn(QString username, QString password) {
+
+    QUrl url(this->baseUrl() + "/login");
+
+
+    QUrlQuery query;
+    query.addQueryItem("username", username);
+    query.addQueryItem("password", password);
+    url.setQuery(query);
+
+    auto request = this->baseRequest(url);
+    request.setRawHeader("X-Parse-Revocable-Session", "1");
+
+    return this->baseManager()->get(request);
+}
+
+QString ParseRequest::baseUrl() {
+    return "http://localhost:2016/parse";
 }
 //creatept to createinc

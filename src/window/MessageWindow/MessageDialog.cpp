@@ -38,9 +38,6 @@ MessageDialog::MessageDialog(QWidget *parent)
     this->setFixedSize(QSize(280, 370));
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     // qDebug() << this->userObj;
-
-
-
    // this->getMessages();
 }
 

@@ -10,6 +10,7 @@
 #include "../ProxySettingWindow/ProxySettingDialog.h"
 #include "../SettingsWindow/SettingsDialog.h"
 #include "../ChatWindow/ChatDialog.h"
+#include "../LoginWindow/LoginWindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,6 +37,13 @@ private:
     ProxySettingDialog *proxySettingDialog;
     SettingsDialog *settingsDialog;
     ChatDialog *chatDialog;
+    LoginWindow *loginWindow;
+
+    void createActions();
+
+    void createTrayIcon();
+
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // OFFICEAPP_MAINWINDOW_H

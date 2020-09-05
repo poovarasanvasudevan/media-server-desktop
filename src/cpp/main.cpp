@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "../window/MainWindow/MainWindow.h"
 #include <QDir>
+#include <QSystemTrayIcon>
 
 
 void applicationInit() {
@@ -8,16 +9,18 @@ void applicationInit() {
     if (!dir.exists()) {
         dir.mkpath(".");
     }
+
 }
 
 int main(int argc, char **argv) {
 
     QApplication a(argc, argv);
 
-    applicationInit();
+
 
     MainWindow w;
     w.setWindowIcon(QIcon(":/assets/icons/logo.png"));
+    applicationInit();
     w.show();
     return a.exec();
 }

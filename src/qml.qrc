@@ -16,5 +16,6 @@
         <file>assets/icons/emoji.png</file>
         <file>assets/icons/user.png</file>
         <file>assets/icons/room.png</file>
+        <file>assets/icons/bgimage.jpg</file>
     </qresource>
 </RCC>
